@@ -1,3 +1,5 @@
+import {useNavigation} from '@react-navigation/native';
+import {Button} from '@rneui/themed';
 import {Text, View, Image, StyleSheet} from 'react-native';
 
 const staticInfo = {
@@ -6,8 +8,20 @@ const staticInfo = {
 };
 
 const Header = () => {
+  const {canGoBack, goBack} = useNavigation();
+
   return (
     <View style={styles.container}>
+      {canGoBack() && (
+        <View style={styles.arrowContainer}>
+          <Button type="clear" onPress={() => goBack()}>
+            <Image
+              source={require('../../assets/icons/back.png')}
+              style={styles.iconBack}
+            />
+          </Button>
+        </View>
+      )}
       <View style={styles.leftContainer}>
         <Text style={styles.name}>{`Hello ${staticInfo.name}`}</Text>
         <Text style={styles.subtitle}>Welcom back to your goal</Text>
@@ -44,6 +58,14 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 5000,
+  },
+  arrowContainer: {
+    justifyContent: 'center',
+    marginLeft: -10,
+  },
+  iconBack: {
+    width: 30,
+    height: 30,
   },
 });
 
