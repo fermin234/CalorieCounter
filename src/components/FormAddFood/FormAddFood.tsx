@@ -2,14 +2,22 @@ import {Button, Input} from '@rneui/themed';
 import {View, Image, Text, StyleSheet} from 'react-native';
 import {useState, FC, useEffect} from 'react';
 import {AddFoodModalProps} from '../../types';
+import useFoodStorage from '../../hooks/useFoodStorage';
 
 const FormAddFood: FC<AddFoodModalProps> = ({isOpen, onClose}) => {
+  const {onSaveFood} = useFoodStorage();
   const [calories, setCalories] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [portion, setPortion] = useState<string>('');
 
-  const handleSubmit = () => {
-    onClose();
+  const handleSubmit = async () => {
+    try {
+      await onSaveFood({calories, name, portion});
+
+      onClose(true);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {

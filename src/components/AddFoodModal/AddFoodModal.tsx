@@ -8,13 +8,13 @@ const AddFoodModal: FC<AddFoodModalProps> = ({onClose, isOpen}) => {
   return (
     <Modal
       visible={isOpen}
-      onRequestClose={onClose}
+      onRequestClose={() => onClose()}
       transparent
       animationType="slide">
       <View style={styles.container}>
         <View style={styles.content}>
           <View style={styles.buttonCloseContainer}>
-            <Button onPress={onClose} type="clear">
+            <Button onPress={() => onClose()} type="clear">
               <Image
                 source={require('../../assets/icons/close.png')}
                 style={styles.iconClose}

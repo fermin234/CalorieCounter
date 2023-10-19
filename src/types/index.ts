@@ -4,6 +4,12 @@ export type RootStackParams = {
 };
 
 export type AddFoodModalProps = {
-  onClose: () => void;
+  onClose: (shouldUpdate?: boolean) => void;
   isOpen: boolean;
+};
+
+export type Meal = {
+  calories: string;
+  name: string;
+  portion: string;
 };

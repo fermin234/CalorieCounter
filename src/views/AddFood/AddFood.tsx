@@ -1,15 +1,36 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Alert, ScrollView, StyleSheet, Text, View} from 'react-native';
 import Header from '../../components/Header';
 import {Button, Image, Input} from '@rneui/themed';
 import AddFoodModal from '../../components/AddFoodModal';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import useFoodStorage from '../../hooks/useFoodStorage';
+import {Meal} from '../../types';
+import MealItem from '../../components/MealItem';
 
 const AddFood = () => {
+  const [foods, setFoods] = useState<Meal[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const {onGetFoods} = useFoodStorage();
 
-  const onClose = () => {
+  const loadFoods = async () => {
+    try {
+      const foodsResponse = await onGetFoods();
+      setFoods(foodsResponse);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onClose = async (shouldUpdate?: boolean) => {
+    shouldUpdate && (Alert.alert('Comida guardada exitosamente.'), loadFoods());
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    loadFoods();
+  }, []);
+
+  console.log(foods);
 
   return (
     <View style={styles.container}>
@@ -44,6 +65,13 @@ const AddFood = () => {
       <View>
         <AddFoodModal isOpen={isOpen} onClose={onClose} />
       </View>
+      <View style={styles.containerFoods}>
+        <ScrollView style={styles.content}>
+          {foods?.map(meal => (
+            <MealItem key={`my-meal-item-${meal.name}`} {...meal} />
+          ))}
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -51,7 +79,10 @@ const AddFood = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 12,
+    backgroundColor: 'white',
+    flex: 1,
   },
+  content: {},
   addFoodContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -86,6 +117,10 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginBottom: 12,
+  },
+  containerFoods: {
+    borderWidth: 1,
+    flex: 1,
   },
 });
 
