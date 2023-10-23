@@ -14,3 +14,10 @@ export type Meal = {
   portion: string;
   date?: string;
 };
+
+export type TodayCaloriesProps = {
+  total: number | string;
+  consumed: number | string;
+  remaining: number | string;
+  percentage: number;
+};

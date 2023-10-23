@@ -4,13 +4,26 @@ import {FC} from 'react';
 import {Button} from '@rneui/themed';
 import useFoodStorage from '../../hooks/useFoodStorage';
 
-const MealItem: FC<Meal> = ({name, calories, portion}) => {
+type MealItemsProps = Meal & {
+  isAbleToAdd?: boolean;
+};
+
+const MealItem: FC<MealItemsProps> = ({
+  name,
+  calories,
+  portion,
+  isAbleToAdd,
+}) => {
   const {onSaveToDayFood} = useFoodStorage();
 
-  const handleAddItemPress = async () => {
+  const handleIconPress = async () => {
     try {
-      await onSaveToDayFood({calories, name, portion});
-      return Alert.alert('Comida agregada al dia.');
+      if (isAbleToAdd) {
+        await onSaveToDayFood({calories, name, portion});
+        return Alert.alert('Comida agregada al dia.');
+      } else {
+        return Alert.alert('Comida eliminada del dia.');
+      }
     } catch (err) {
       console.error(err);
       return Alert.alert('Comida no agregada.');
@@ -23,9 +36,13 @@ const MealItem: FC<Meal> = ({name, calories, portion}) => {
         <Text style={styles.portion}>{portion}</Text>
       </View>
       <View style={styles.rightContainer}>
-        <Button type="clear" onPress={handleAddItemPress}>
+        <Button type="clear" onPress={handleIconPress}>
           <Image
-            source={require('../../assets/icons/add.png')}
+            source={
+              isAbleToAdd
+                ? require('../../assets/icons/add.png')
+                : require('../../assets/icons/delete.png')
+            }
             style={styles.iconAdd}
           />
         </Button>

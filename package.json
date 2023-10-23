@@ -1,5 +1,5 @@
 {
-  "name": "CalorieCounter",
+  "name": "caloriecounter",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -15,10 +15,15 @@
     "@react-navigation/native-stack": "^6.9.14",
     "@rneui/base": "^4.0.0-rc.7",
     "@rneui/themed": "^4.0.0-rc.8",
+    "date-fns": "^2.30.0",
     "react": "18.2.0",
     "react-native": "0.72.6",
+    "react-native-circular-progress-indicator": "^4.4.2",
+    "react-native-reanimated": "^3.5.4",
+    "react-native-redash": "^18.1.1",
     "react-native-safe-area-context": "^4.7.2",
-    "react-native-screens": "^3.25.0"
+    "react-native-screens": "^3.25.0",
+    "react-native-svg": "^13.14.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

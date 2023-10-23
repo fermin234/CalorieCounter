@@ -46,8 +46,6 @@ const AddFood = () => {
     loadFoods().catch(null);
   }, []);
 
-  console.log(foods);
-
   return (
     <View style={styles.container}>
       <Header />
@@ -89,7 +87,7 @@ const AddFood = () => {
       <View style={styles.containerFoods}>
         <ScrollView style={styles.content}>
           {foods?.map((meal: Meal) => (
-            <MealItem key={`my-meal-item-${meal.name}`} {...meal} />
+            <MealItem key={`my-meal-item-${meal.name}`} {...meal} isAbleToAdd />
           ))}
         </ScrollView>
       </View>
