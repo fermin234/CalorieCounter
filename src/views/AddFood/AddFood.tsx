@@ -6,10 +6,12 @@ import {useEffect, useState} from 'react';
 import useFoodStorage from '../../hooks/useFoodStorage';
 import {Meal} from '../../types';
 import MealItem from '../../components/MealItem';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddFood = () => {
   const [foods, setFoods] = useState<Meal[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [search, setSearch] = useState('');
   const {onGetFoods} = useFoodStorage();
 
   const loadFoods = async () => {
@@ -26,8 +28,22 @@ const AddFood = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleSearchPress = async () => {
+    try {
+      const result = await onGetFoods();
+      setFoods(
+        result.filter((item: Meal) =>
+          item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
+        ),
+      );
+    } catch (err) {
+      console.error(err);
+      setFoods([]);
+    }
+  };
+
   useEffect(() => {
-    loadFoods();
+    loadFoods().catch(null);
   }, []);
 
   console.log(foods);
@@ -51,7 +67,11 @@ const AddFood = () => {
       </View>
       <View style={styles.searchContainer}>
         <View style={styles.inputContainer}>
-          <Input placeholder="apples, pie, soda" />
+          <Input
+            placeholder="apples, pie, soda"
+            value={search}
+            onChangeText={(text: string) => setSearch(text)}
+          />
         </View>
         <View style={styles.buttonContainer}>
           <Button
@@ -59,6 +79,7 @@ const AddFood = () => {
             radius="lg"
             color="#ade8af"
             titleStyle={styles.searchButtonTitle}
+            onPress={handleSearchPress}
           />
         </View>
       </View>
@@ -67,7 +88,7 @@ const AddFood = () => {
       </View>
       <View style={styles.containerFoods}>
         <ScrollView style={styles.content}>
-          {foods?.map(meal => (
+          {foods?.map((meal: Meal) => (
             <MealItem key={`my-meal-item-${meal.name}`} {...meal} />
           ))}
         </ScrollView>
@@ -119,7 +140,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   containerFoods: {
-    borderWidth: 1,
     flex: 1,
   },
 });
