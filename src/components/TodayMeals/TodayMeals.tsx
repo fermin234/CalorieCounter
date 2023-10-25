@@ -1,19 +1,20 @@
 import {FC} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
-import {Meal} from '../../types';
+import {Meal, TodayMealsProps} from '../../types';
 import MealItem from '../MealItem';
 
-type TodayMealsProps = {
-  foods: Meal[];
-};
-
-const TodayMeals: FC<TodayMealsProps> = ({foods}) => {
+const TodayMeals: FC<TodayMealsProps> = ({foods, onCompleteAddRemove}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Foods</Text>
       <ScrollView style={styles.content}>
         {foods?.map((meal: Meal, i) => (
-          <MealItem key={`today-meal-item-${meal.name}- ${i}`} {...meal} />
+          <MealItem
+            key={`today-meal-item-${meal.name}- ${i}`}
+            {...meal}
+            onCompleteAddRemove={onCompleteAddRemove}
+            itemPosition={i}
+          />
         ))}
       </ScrollView>
     </View>

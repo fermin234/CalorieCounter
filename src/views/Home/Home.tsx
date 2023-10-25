@@ -1,4 +1,4 @@
-import {Text, View, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import Header from '../../components/Header';
 import SubHeader from '../../components/SubHeader';
 import useFoodStorage from '../../hooks/useFoodStorage';
@@ -65,7 +65,10 @@ const Home = () => {
       <Header />
       <SubHeader />
       <TodayCalories {...todayStatistics} />
-      <TodayMeals foods={toDayFoods} />
+      <TodayMeals
+        foods={toDayFoods}
+        onCompleteAddRemove={() => loadToDayFoods()}
+      />
     </View>
   );
 };

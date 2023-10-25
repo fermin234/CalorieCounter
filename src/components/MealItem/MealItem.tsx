@@ -1,29 +1,29 @@
 import {Alert, Image, StyleSheet, Text, View} from 'react-native';
-import {Meal} from '../../types';
+import {MealItemsProps} from '../../types';
 import {FC} from 'react';
 import {Button} from '@rneui/themed';
 import useFoodStorage from '../../hooks/useFoodStorage';
-
-type MealItemsProps = Meal & {
-  isAbleToAdd?: boolean;
-};
 
 const MealItem: FC<MealItemsProps> = ({
   name,
   calories,
   portion,
   isAbleToAdd,
+  itemPosition,
+  onCompleteAddRemove,
 }) => {
-  const {onSaveToDayFood} = useFoodStorage();
+  const {onSaveToDayFood, onRomoveTodayFood} = useFoodStorage();
 
   const handleIconPress = async () => {
     try {
       if (isAbleToAdd) {
         await onSaveToDayFood({calories, name, portion});
-        return Alert.alert('Comida agregada al dia.');
+        Alert.alert('Comida agregada al dia.');
       } else {
-        return Alert.alert('Comida eliminada del dia.');
+        await onRomoveTodayFood(itemPosition ?? -1);
+        Alert.alert('Comida eliminada del dia.');
       }
+      onCompleteAddRemove?.();
     } catch (err) {
       console.error(err);
       return Alert.alert('Comida no agregada.');
