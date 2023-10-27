@@ -34,7 +34,7 @@ const Home = () => {
 
   const calculateTodayStatistics = (meals: Meal[]) => {
     try {
-      const caloriesConsumed = meals.reduce(
+      const caloriesConsumed = meals?.reduce(
         (acum, curr) => acum + Number(curr.calories),
         0,
       );
