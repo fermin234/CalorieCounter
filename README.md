@@ -11,6 +11,7 @@ Calories Counter es una aplicación móvil desarrollada con React Native que te 
 
 ## Tecnologías Utilizadas
 
+- **Typescript**
 - **React Native:** Desarrollado utilizando el marco de trabajo de React Native para aplicaciones móviles multiplataforma.
 - **Persistencia de Datos:** Se utiliza LocalStorage almacenamiento para garantizar que tus datos estén seguros y disponibles.
 
